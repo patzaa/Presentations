@@ -10,15 +10,9 @@ export default function RoadmapSlide() {
     <div className="animate-fade-in flex flex-col items-center min-h-[80vh] px-8 pt-4">
       <div className="w-full max-w-5xl">
         <div className="text-center mb-8">
-          <p className="text-sm font-medium text-accent-coral tracking-widest uppercase mb-2">
-            Phase IV
-          </p>
           <h2 className="text-3xl font-bold text-text-primary">
             ROI-Kalkulator
           </h2>
-          <p className="text-text-secondary mt-2">
-            Berechnen Sie die Amortisation für Ihre Use-Cases live
-          </p>
         </div>
 
         {(() => {

@@ -22,7 +22,7 @@ const STEPS: { label: string; desc: string; tx: number; ty: number; anchor: "sta
   {
     label: "Tools",
     desc: "Der Agent führt das gewählte Tool aus — API abfragen, Dokument lesen, E-Mail senden oder Berechnung ausführen.",
-    tx: 340, ty: 325, anchor: "middle" as const,
+    tx: 20, ty: 325, anchor: "start" as const,
   },
   {
     label: "Observe",
@@ -42,8 +42,8 @@ const STEPS: { label: string; desc: string; tx: number; ty: number; anchor: "sta
 ];
 
 export default function AgentGenericDiagram() {
-  const [step, setStep] = useState<number | null>(null);
-  const [showAll, setShowAll] = useState(true);
+  const [step, setStep] = useState<number | null>(0);
+  const [showAll, setShowAll] = useState(false);
 
   const opacity = (i: number) =>
     showAll ? 1 : step !== null && i <= step ? 1 : 0.15;

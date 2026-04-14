@@ -5,28 +5,51 @@ import { useStore } from "@/lib/store";
 const PHASES = [
   {
     num: "I",
-    title: "Ist-Analyse",
-    desc: "Tagesablauf, Pain Points und Prozesse verstehen",
+    title: "Tagesziel definieren",
+    desc: "Was wollen wir heute gemeinsam erreichen?",
+    slide: 1,
   },
   {
     num: "II",
-    title: "KI-Input",
-    desc: "Was ist heute mit Agenten möglich?",
+    title: "Systemarchitektur",
+    desc: "Überblick über die Komponenten der KI-Lösung",
+    slide: 2,
   },
   {
     num: "III",
-    title: "Use-Cases erarbeiten",
-    desc: "Gemeinsam konkrete Anwendungsfälle identifizieren",
+    title: "Funktionsweise KI-Agent",
+    desc: "Wie arbeitet der Agent im Hintergrund?",
+    slide: 3,
   },
   {
     num: "IV",
-    title: "Roadmap & ROI",
-    desc: "Umsetzungsplan und Return on Investment",
+    title: "Datenschutz",
+    desc: "DSGVO, Datenhaltung und Vertraulichkeit",
+    slide: 4,
   },
   {
     num: "V",
-    title: "Abschluss & Nächste Schritte",
-    desc: "Zusammenfassung und konkreter Aktionsplan",
+    title: "Ist-Analyse",
+    desc: "Tagesablauf, Pain Points und Prozesse verstehen",
+    slide: 5,
+  },
+  {
+    num: "VI",
+    title: "Pilot Use-Cases",
+    desc: "Konkrete Anwendungsfälle für den Einstieg",
+    slide: 6,
+  },
+  {
+    num: "VII",
+    title: "Roadmap & ROI",
+    desc: "Umsetzungsplan und Return on Investment",
+    slide: 7,
+  },
+  {
+    num: "VIII",
+    title: "Abschluss",
+    desc: "Zusammenfassung und nächste Schritte",
+    slide: 8,
   },
 ];
 
@@ -46,7 +69,7 @@ export default function AgendaSlide() {
         {PHASES.map((phase, i) => (
           <button
             key={i}
-            onClick={() => setSlide(i + 1)}
+            onClick={() => setSlide(phase.slide)}
             className="w-full flex items-baseline gap-6 text-left transition-all hover:opacity-70 animate-fade-in"
             style={{ animationDelay: `${i * 80}ms` }}
           >

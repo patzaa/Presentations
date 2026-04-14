@@ -1,15 +1,9 @@
-// In-memory store for real-time sync of use-case positions
-// This works on Vercel as long as the function stays warm during the presentation
+// In-memory store for real-time sync of use-cases
+// Stores full use-case data so all clients see the same state
 
-interface UseCaseSync {
-  id: string;
-  matrixX: number;
-  matrixY: number;
-  impact: number;
-  effort: number;
-}
+import { UseCase } from "@/lib/types";
 
-let syncedUseCases: UseCaseSync[] = [];
+let syncedUseCases: UseCase[] = [];
 let lastUpdate = 0;
 
 export async function GET(request: Request) {

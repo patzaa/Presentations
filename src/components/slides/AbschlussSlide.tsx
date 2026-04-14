@@ -60,12 +60,25 @@ export default function AbschlussSlide() {
       const element = document.getElementById("report-content");
       if (!element) return;
 
+      const html2canvas = (await import("html2canvas")).default;
+
+      // Capture PoC workflow + Ergebnis screenshots
+      const pocImages: string[] = [];
+      const pocElements = document.querySelectorAll("[data-poc-capture]");
+      for (const el of pocElements) {
+        try {
+          const canvas = await html2canvas(el as HTMLElement, { scale: 2, useCORS: true, backgroundColor: "#F8F6F0" });
+          pocImages.push(canvas.toDataURL("image/png"));
+        } catch (e) {
+          console.error("PoC screenshot failed:", e);
+        }
+      }
+
       // Try to capture ROI screenshots
       let roiImages: string[] = [];
       const roiHost = document.getElementById("roi-capture-host");
       if (roiHost) {
         try {
-          const html2canvas = (await import("html2canvas")).default;
           roiHost.style.cssText = "display:block; position:fixed; top:0; left:0; width:900px; z-index:-1; opacity:0; pointer-events:none;";
           await new Promise((r) => setTimeout(r, 800));
           const roiElements = roiHost.querySelectorAll("[data-roi-calculator]");
@@ -78,6 +91,24 @@ export default function AbschlussSlide() {
           console.error("ROI screenshot failed:", e);
           if (roiHost) roiHost.style.cssText = "display:none;";
         }
+      }
+
+      // Insert PoC workflow screenshots into PDF
+      const pocContainer = document.getElementById("pdf-poc-screenshots");
+      if (pocContainer && pocImages.length > 0) {
+        pocContainer.innerHTML = "";
+        pocImages.forEach((src, i) => {
+          if (i > 0) {
+            const spacer = document.createElement("div");
+            spacer.style.height = "20px";
+            pocContainer.appendChild(spacer);
+          }
+          const img = document.createElement("img");
+          img.src = src;
+          img.style.width = "100%";
+          img.style.borderRadius = "8px";
+          pocContainer.appendChild(img);
+        });
       }
 
       // Insert ROI images into PDF content
@@ -133,9 +164,6 @@ export default function AbschlussSlide() {
       <div className="w-full max-w-4xl">
         <div className="text-center mb-8">
           <img src="/sperr-zellner-logo.png" alt="Sperr & Zellner" className="h-24 mx-auto mb-4" />
-          <p className="text-sm font-medium text-accent-purple tracking-widest uppercase mb-2">
-            Phase V
-          </p>
           <h2 className="text-3xl font-bold text-text-primary">
             Abschluss & Nächste Schritte
           </h2>
@@ -177,7 +205,7 @@ export default function AbschlussSlide() {
               const pbDisplay = paybackMonths > 12 ? ">12" : paybackMonths.toFixed(1).replace(".", ",");
 
               return (
-                <div key={uc.id} className="space-y-4">
+                <div key={uc.id} className="space-y-4" data-poc-capture>
                   <div className="bg-bg-card rounded-2xl border border-border p-8">
                     <h3 className="text-lg font-semibold text-text-primary mb-1">PoC Workflow</h3>
                     <p className="text-text-secondary mb-6">
@@ -343,6 +371,17 @@ export default function AbschlussSlide() {
                 ))}
               </div>
             </div>
+
+            {/* PoC Workflow + Ergebnis */}
+            {data.useCases.some((uc) => uc.selectedForPoc) && (
+              <div style={{ marginBottom: "36px", pageBreakInside: "avoid" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                  <div style={{ width: "4px", height: "24px", borderRadius: "2px", background: "#0F6E56" }} />
+                  <h2 style={{ fontSize: "18px", fontWeight: 700, margin: 0 }}>PoC Workflow & Ergebnis</h2>
+                </div>
+                <div id="pdf-poc-screenshots" />
+              </div>
+            )}
 
             {/* ROI Kalkulation */}
             {quickWins.length > 0 && (

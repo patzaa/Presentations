@@ -1,12 +1,12 @@
 # Ist-Analyse — Sperr & Zellner
 
-**Datum:** 25.3.2026
+**Datum:** 26.3.2026
 
 ---
 
-## 1. Was frisst bei euch die meiste Zeit im Tagesgeschäft?
+## 1. Was waren letzte Woche die drei Sachen, die dich am längsten aufgehalten haben?
 
-so der größte Zeitfresser. so der größte Zeitfresser. zw. zw. rum rum
+*Keine Antwort*
 
 ## 2. Wie sieht ein typischer Tag im Team aus?
 
@@ -20,7 +20,7 @@ so der größte Zeitfresser. so der größte Zeitfresser. zw. zw. rum rum
 
 *Keine Antwort*
 
-## 5. Wie nutzen Sie idwell aktuell – was funktioniert gut, was fehlt?
+## 5. Wie bearbeitest du eine typische Schadensmeldung in idwell — von der E-Mail bis zum geschlossenen Ticket?
 
 *Keine Antwort*
 

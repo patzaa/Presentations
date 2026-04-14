@@ -3,8 +3,11 @@
 import { useStore } from "@/lib/store";
 import SlideNavigation from "./SlideNavigation";
 import AgendaSlide from "./slides/AgendaSlide";
-import IstAnalyseSlide from "./slides/IstAnalyseSlide";
+import TagesZielSlide from "./slides/TagesZielSlide";
+import SystemarchitekturSlide from "./slides/SystemarchitekturSlide";
 import KIInputSlide from "./slides/KIInputSlide";
+import DatenschutzSlide from "./slides/DatenschutzSlide";
+import IstAnalyseSlide from "./slides/IstAnalyseSlide";
 import UseCaseSlide from "./slides/UseCaseSlide";
 import RoadmapSlide from "./slides/RoadmapSlide";
 import AbschlussSlide from "./slides/AbschlussSlide";
@@ -12,8 +15,11 @@ import { useEffect } from "react";
 
 const SLIDES = [
   AgendaSlide,
-  IstAnalyseSlide,
+  TagesZielSlide,
+  SystemarchitekturSlide,
   KIInputSlide,
+  DatenschutzSlide,
+  IstAnalyseSlide,
   UseCaseSlide,
   RoadmapSlide,
   AbschlussSlide,
@@ -23,7 +29,7 @@ export default function Presentation() {
   const { data, user, setSlide } = useStore();
 
   const isParticipant = user === "michael";
-  const currentSlideIndex = isParticipant ? 3 : data.currentSlide;
+  const currentSlideIndex = isParticipant ? 6 : data.currentSlide;
   const CurrentSlide = SLIDES[currentSlideIndex] || AgendaSlide;
 
   // Keyboard navigation (disabled for participant)

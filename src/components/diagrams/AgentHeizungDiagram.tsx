@@ -117,7 +117,51 @@ export default function AgentHeizungDiagram() {
 
   return (
     <div>
-      <svg width="100%" viewBox="0 0 680 700" className="mb-4">
+      {/* Step buttons */}
+      <div className="flex flex-wrap gap-1.5 mb-3">
+        {STEPS.map((s, i) => (
+          <button
+            key={i}
+            onClick={() => { setStep(i); setShowAll(false); }}
+            className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              !showAll && step === i
+                ? "bg-text-primary text-bg-primary"
+                : "bg-bg-secondary text-text-primary hover:bg-border"
+            }`}
+          >
+            {s.label}
+          </button>
+        ))}
+        <button
+          onClick={() => setShowAll(true)}
+          className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            showAll
+              ? "bg-text-primary text-bg-primary"
+              : "bg-bg-secondary text-text-primary hover:bg-border"
+          }`}
+        >
+          Alles zeigen
+        </button>
+      </div>
+
+      <div className="flex gap-4">
+      {/* Context box — left side */}
+      <div className="w-64 shrink-0">
+        <div className="bg-bg-card rounded-xl border border-border p-4 sticky top-4">
+          <h4 className="font-medium text-sm text-text-primary mb-2">
+            {showAll ? "Kompletter Ablauf — 3 Schritte, 2 Loops, 8 Sekunden" : STEPS[step].title}
+          </h4>
+          <div className="text-text-secondary leading-relaxed whitespace-pre-wrap font-mono text-xs bg-bg-secondary rounded-lg p-3">
+            {showAll
+              ? "Der Agent hat autonom einen 3-Schritte-Plan erstellt und sequentiell abgearbeitet. Nach jedem Schritt ging er zurück ins Reasoning. Jeder Schritt baut auf dem vorherigen auf.\n\n8 Sekunden statt 15–20 Minuten manuell."
+              : STEPS[step].body}
+          </div>
+        </div>
+      </div>
+
+      {/* Diagram — right side */}
+      <div className="flex-1 min-w-0">
+      <svg width="100%" viewBox="0 0 680 700">
         <defs>
           <marker id="ah-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -219,44 +263,7 @@ export default function AgentHeizungDiagram() {
           <text x="621" y="676" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#2D2B28">Fertig</text>
         </g>
       </svg>
-
-      {/* Step buttons */}
-      <div className="flex flex-wrap gap-1.5 mb-3">
-        {STEPS.map((s, i) => (
-          <button
-            key={i}
-            onClick={() => { setStep(i); setShowAll(false); }}
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              !showAll && step === i
-                ? "bg-text-primary text-bg-primary"
-                : "bg-bg-secondary text-text-primary hover:bg-border"
-            }`}
-          >
-            {s.label}
-          </button>
-        ))}
-        <button
-          onClick={() => setShowAll(true)}
-          className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-            showAll
-              ? "bg-text-primary text-bg-primary"
-              : "bg-bg-secondary text-text-primary hover:bg-border"
-          }`}
-        >
-          Alles zeigen
-        </button>
       </div>
-
-      {/* Context box */}
-      <div className="bg-bg-card rounded-xl border border-border p-4">
-        <h4 className="font-medium text-sm text-text-primary mb-2">
-          {showAll ? "Kompletter Ablauf — 3 Schritte, 2 Loops, 8 Sekunden" : STEPS[step].title}
-        </h4>
-        <div className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap font-mono text-xs bg-bg-secondary rounded-lg p-3">
-          {showAll
-            ? "Der Agent hat autonom einen 3-Schritte-Plan erstellt und sequentiell abgearbeitet. Nach jedem Schritt ging er zurück ins Reasoning. Jeder Schritt baut auf dem vorherigen auf.\n\n8 Sekunden statt 15–20 Minuten manuell."
-            : STEPS[step].body}
-        </div>
       </div>
     </div>
   );

@@ -9,17 +9,11 @@ export default function KIInputSlide() {
 
   return (
     <div className="animate-fade-in flex flex-col items-center min-h-[80vh] px-8 pt-4">
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-7xl">
         <div className="text-center mb-6">
-          <p className="text-sm font-medium text-accent-teal tracking-widest uppercase mb-2">
-            Phase II
-          </p>
           <h2 className="text-3xl font-bold text-text-primary">
             Was ist heute mit Agenten möglich?
           </h2>
-          <p className="text-text-secondary mt-2">
-            KI-Agenten: Autonome digitale Mitarbeiter
-          </p>
         </div>
 
         {/* Tabs */}

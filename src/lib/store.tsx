@@ -4,11 +4,11 @@ import { createContext, useContext, useState, useEffect, useRef, useCallback, Re
 import { SessionData, UseCase, RoadmapPhase, ROIEstimate } from "./types";
 
 const QUESTIONS = [
-  "Was frisst bei euch die meiste Zeit im Tagesgeschäft?",
+  "Was waren letzte Woche die drei Sachen, die dich am längsten aufgehalten haben?",
   "Wie sieht ein typischer Tag im Team aus?",
   "Welche Aufgaben kosten die meiste Zeit?",
-  "Wo gibt es Frust oder Engpässe?",
   "Wie nutzen Sie idwell aktuell – was funktioniert gut, was fehlt?",
+  "Wie bearbeitest du eine typische Schadensmeldung in idwell — von der E-Mail bis zum geschlossenen Ticket?",
 ];
 
 const initialState: SessionData = {
@@ -46,28 +46,36 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const syncTimestamp = useRef(0);
   const isDragging = useRef(false);
 
-  // Fetch current user
+  // Fetch current user + load saved answers from DB
   useEffect(() => {
     fetch("/api/me").then((r) => r.json()).then((d) => {
       setUser(d.user);
-      // Michael lands on Use-Cases slide
       if (d.user === "michael") {
         setData((prev) => ({ ...prev, currentSlide: 3 }));
       }
     }).catch(() => {});
+
+    // Load Ist-Analyse answers from Supabase
+    fetch("/api/ist-analyse").then((r) => r.json()).then((d) => {
+      if (d.answers?.length > 0) {
+        setData((prev) => ({
+          ...prev,
+          istAnalyse: prev.istAnalyse.map((q, i) => {
+            const saved = d.answers.find((a: { question_index: number }) => a.question_index === i);
+            return saved ? { ...q, answer: saved.answer } : q;
+          }),
+        }));
+      }
+    }).catch(() => {});
   }, []);
 
-  // Sync: push positions to server after drag
+  // Sync: push full use-case data to server
   const pushSync = useCallback(async (useCases: UseCase[]) => {
     try {
-      const payload = useCases.map((uc) => ({
-        id: uc.id, matrixX: uc.matrixX, matrixY: uc.matrixY,
-        impact: uc.impact, effort: uc.effort,
-      }));
       const res = await fetch("/api/sync", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ useCases: payload }),
+        body: JSON.stringify({ useCases }),
       });
       const result = await res.json();
       syncTimestamp.current = result.timestamp;
@@ -83,10 +91,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       try {
         const res = await fetch(`/api/sync?since=${syncTimestamp.current}`);
         const result = await res.json();
-        if (result.updated && result.useCases) {
+        if (result.updated && result.useCases?.length > 0) {
           syncTimestamp.current = result.timestamp;
           setData((d) => {
-            if (d.useCases.length === 0) return d;
+            // If we have no use-cases yet, take the full synced set (Michael's case)
+            if (d.useCases.length === 0) {
+              return { ...d, useCases: result.useCases };
+            }
+            // Otherwise merge positions from sync
             return {
               ...d,
               useCases: d.useCases.map((uc) => {
@@ -107,13 +119,23 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const setSlide = (n: number) =>
     setData((d) => ({ ...d, currentSlide: n }));
 
-  const updateAnswer = (index: number, answer: string) =>
-    setData((d) => ({
-      ...d,
-      istAnalyse: d.istAnalyse.map((e, i) =>
-        i === index ? { ...e, answer } : e
-      ),
-    }));
+  const updateAnswer = (index: number, answer: string) => {
+    setData((d) => {
+      const question = d.istAnalyse[index]?.question || "";
+      // Persist to Supabase (fire and forget)
+      fetch("/api/ist-analyse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questionIndex: index, question, answer }),
+      }).catch(() => {});
+      return {
+        ...d,
+        istAnalyse: d.istAnalyse.map((e, i) =>
+          i === index ? { ...e, answer } : e
+        ),
+      };
+    });
+  };
 
   const setUseCases = (cases: UseCase[]) => {
     setData((d) => ({ ...d, useCases: cases }));

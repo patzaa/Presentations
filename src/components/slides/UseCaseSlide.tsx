@@ -64,15 +64,9 @@ export default function UseCaseSlide() {
     <div className="animate-fade-in flex flex-col items-center min-h-[80vh] px-8 pt-4">
       <div className="w-full max-w-5xl">
         <div className="text-center mb-6">
-          <p className="text-sm font-medium text-accent-amber tracking-widest uppercase mb-2">
-            Phase III
-          </p>
           <h2 className="text-3xl font-bold text-text-primary">
             Use-Cases erarbeiten
           </h2>
-          <p className="text-text-secondary mt-2">
-            Aus Ihren Pain Points werden konkrete KI-Anwendungsfälle
-          </p>
         </div>
 
         {data.useCases.length === 0 ? (

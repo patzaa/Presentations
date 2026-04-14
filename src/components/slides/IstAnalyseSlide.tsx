@@ -316,9 +316,7 @@ export default function IstAnalyseSlide() {
     <div className="animate-fade-in flex flex-col items-center justify-center min-h-[80vh] px-8">
       <div className="w-full max-w-3xl">
         <div className="text-center mb-8">
-          <p className="text-sm font-medium text-accent-purple tracking-widest uppercase mb-2">Phase I</p>
           <h2 className="text-3xl font-bold text-text-primary">Ist-Analyse</h2>
-          <p className="text-text-secondary mt-2">Tagesablauf, Pain Points und Prozesse verstehen</p>
         </div>
 
         <div className="flex items-center gap-2 mb-8 justify-center">

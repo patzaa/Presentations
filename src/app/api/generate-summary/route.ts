@@ -31,15 +31,13 @@ Antworte AUSSCHLIESSLICH mit einem JSON-Objekt:
 {
   "summary": "3-5 Absätze Zusammenfassung des Workshops. Was wurde besprochen, welche Kernerkenntnisse, welcher Mehrwert.",
   "nextSteps": [
-    "Konkreter nächster Schritt 1",
-    "Konkreter nächster Schritt 2",
-    "Konkreter nächster Schritt 3",
-    "Konkreter nächster Schritt 4",
-    "Konkreter nächster Schritt 5"
+    "Detailkonzept für den ausgewählten PoC-Workflow erstellen",
+    "Konkrete Beispiele und Referenzen für ähnliche Automatisierungen zusenden",
+    "Funktionierenden Test-Workflow innerhalb von 1-2 Wochen präsentieren"
   ]
 }
 
-Die Zusammenfassung soll professionell, aber verständlich sein. Die nächsten Schritte sollen konkret und umsetzbar sein. Wichtig: Der Ansprechpartner arbeitet alleine (kein Team), formuliere die Schritte entsprechend für eine Einzelperson.`,
+Die Zusammenfassung soll professionell, aber verständlich sein. Die nächsten Schritte sind IMMER genau diese drei — nicht ändern, nicht erweitern. Wichtig: Der Ansprechpartner arbeitet alleine (kein Team), formuliere die Zusammenfassung entsprechend für eine Einzelperson.`,
       },
     ],
   });
