@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useStore } from "@/lib/store";
 import IdwellWorkflowDiagram from "@/components/diagrams/IdwellWorkflowDiagram";
 import ROICalculator from "@/components/ROICalculator";
+import confetti from "canvas-confetti";
 
 export default function AbschlussSlide() {
   const { data, setNextSteps, setSummary } = useStore();
@@ -50,6 +51,26 @@ export default function AbschlussSlide() {
       generate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const fire = (originX: number) => {
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        startVelocity: 55,
+        origin: { x: originX, y: 0.7 },
+        colors: ["#534AB7", "#0F6E56", "#D85A30", "#F1C84B", "#F8F6F0"],
+      });
+    };
+    const t1 = setTimeout(() => fire(0.25), 200);
+    const t2 = setTimeout(() => fire(0.75), 450);
+    const t3 = setTimeout(() => fire(0.5), 700);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, []);
 
   const downloadPDF = async () => {
@@ -242,15 +263,22 @@ export default function AbschlussSlide() {
             {/* Next steps */}
             <div className="bg-bg-card rounded-2xl border border-border p-8">
               <h3 className="text-lg font-semibold text-text-primary mb-6">Nächste Schritte</h3>
-              <div className="space-y-3">
-                {data.nextSteps.map((step, i) => (
-                  <div key={i} className="flex items-start gap-3 p-3 bg-bg-secondary rounded-xl">
-                    <span className="w-7 h-7 rounded-full bg-accent-purple text-white flex items-center justify-center text-sm font-bold shrink-0">
-                      {i + 1}
-                    </span>
-                    <p className="text-text-primary text-sm pt-0.5">{step}</p>
-                  </div>
-                ))}
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-center">
+                <div className="space-y-3">
+                  {data.nextSteps.map((step, i) => (
+                    <div key={i} className="flex items-start gap-3 p-3 bg-bg-secondary rounded-xl">
+                      <span className="w-7 h-7 rounded-full bg-accent-purple text-white flex items-center justify-center text-sm font-bold shrink-0">
+                        {i + 1}
+                      </span>
+                      <p className="text-text-primary text-sm pt-0.5">{step}</p>
+                    </div>
+                  ))}
+                </div>
+                <img
+                  src="/images/celebration.jpg"
+                  alt="Geschafft!"
+                  className="h-56 md:h-64 object-contain mx-auto"
+                />
               </div>
             </div>
 

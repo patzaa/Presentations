@@ -2,9 +2,9 @@
 
 export default function SystemarchitekturSlide() {
   return (
-    <div className="animate-fade-in flex flex-col items-center min-h-[80vh] px-8 pt-4">
-      <div className="w-full max-w-7xl">
-        <div className="text-center mb-6">
+    <div className="animate-fade-in flex flex-col items-center min-h-[80vh] px-4 pt-4">
+      <div className="w-full max-w-[1600px]">
+        <div className="text-center mb-4">
           <h2 className="text-3xl font-bold text-text-primary">
             Systemarchitektur
           </h2>
